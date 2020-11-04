@@ -3,6 +3,7 @@ package com.atguigu.gmall.product.controller;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.service.ManageService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import java.util.List;
 @Api(tags = "后台数据接口测试")
 @RestController
 @RequestMapping("admin/product")
-@CrossOrigin
+//@CrossOrigin
 public class BaseManageController {
 
     @Autowired
@@ -77,8 +78,11 @@ public class BaseManageController {
     public Result getAttrValueList(@PathVariable Long attrId){
         BaseAttrInfo baseAttrInfo = manageService.getBaseAttrInfo(attrId);
         //List<BaseAttrValue> baseAttrValueList = manageService.getAttrValueList(attrId);
+        Page page = new Page();
         return Result.ok(baseAttrInfo.getAttrValueList());
     }
+
+
 
 
 }
