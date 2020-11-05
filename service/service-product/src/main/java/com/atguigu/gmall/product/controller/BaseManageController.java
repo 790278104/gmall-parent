@@ -81,14 +81,6 @@ public class BaseManageController {
         //Page page = new Page();
         return Result.ok(baseAttrInfo.getAttrValueList());
     }
-
-    public static void main(String[] args) {
-        System.out.println("更新1");
-
-    }
-
-
-
-
+    
 
 }
