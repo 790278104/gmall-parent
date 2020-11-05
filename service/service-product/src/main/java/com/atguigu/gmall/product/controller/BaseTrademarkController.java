@@ -15,6 +15,7 @@ public class BaseTrademarkController {
     @Autowired
     private BaseTrademarkService baseTrademarkService;
 
+    //分页获取品牌表
     @GetMapping("{page}/{limit}")
     public Result getbaseTrademarkList(@PathVariable Long page,
                                        @PathVariable Long limit){
@@ -23,25 +24,26 @@ public class BaseTrademarkController {
         return Result.ok(pageList);
     }
 
-
+    //添加品牌
     @PostMapping("save")
     public Result saveBaseTrademark(@RequestBody BaseTrademark baseTrademark){
         baseTrademarkService.save(baseTrademark);
         return Result.ok();
     }
 
+    //修改品牌
     @PutMapping("update")
     public Result updateBaseTrademark(@RequestBody BaseTrademark baseTrademark){
         baseTrademarkService.updateById(baseTrademark);
         return Result.ok();
     }
-
+    //删除品牌
     @DeleteMapping("remove/{id}")
     public Result removeBaseTrademark(@PathVariable Long id){
         baseTrademarkService.removeById(id);
         return Result.ok();
     }
-
+    //根据Id获取品牌
     @GetMapping("get/{id}")
     public Result getBaseTrademark(@PathVariable Long id){
         return Result.ok(baseTrademarkService.getById(id));

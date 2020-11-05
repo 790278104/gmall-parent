@@ -31,6 +31,6 @@ public interface ManageService {
     //根据平台属性Id 查询平台属性对象
     BaseAttrInfo getBaseAttrInfo(Long attrId);
 
-    //分页查询
+    //分页查询商品表
     IPage<SpuInfo> getSpuInfoPage(Page<SpuInfo> pageParam, SpuInfo spuInfo);
 }
