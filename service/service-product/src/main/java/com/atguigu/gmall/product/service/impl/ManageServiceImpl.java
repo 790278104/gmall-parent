@@ -27,24 +27,24 @@ public class ManageServiceImpl implements ManageService {
     private BaseAttrValueMapper baseAttrValueMapper;
     @Autowired
     private SpuInfoMapper spuInfoMapper;
-
+    //查询所有一级分类数据
     @Override
     public List<BaseCategory1> getCategory1() {
         return baseCategory1Mapper.selectList(null);
     }
-
+    //查询所有二级分类数据
     @Override
     public List<BaseCategory2> getCategory2(Long category1Id) {
         QueryWrapper<BaseCategory2> baseCategory2QueryWrapper = new QueryWrapper<>();
         baseCategory2QueryWrapper.eq("category1_id",category1Id);
         return baseCategory2Mapper.selectList(baseCategory2QueryWrapper);
     }
-
+    //查询所有三级分类数据
     @Override
     public List<BaseCategory3> getCategory3(Long category2Id) {
         return baseCategory3Mapper.selectList(new QueryWrapper<BaseCategory3>().eq("category2_id",category2Id));
     }
-
+    //获取平台属性数据集合
     @Override
     public List<BaseAttrInfo> getAttrIofoList(Long category1Id, Long category2Id, Long category3Id) {
         return baseAttrInfoMapper.selectBaseAttrInforList(category1Id,category2Id,category3Id);
@@ -61,8 +61,6 @@ public class ManageServiceImpl implements ManageService {
         }
 
         baseAttrValueMapper.delete(new QueryWrapper<BaseAttrValue>().eq("attr_id",baseAttrInfo.getId()));
-
-
         List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
         //判断集合不为空
         if (!CollectionUtils.isEmpty(attrValueList)){
@@ -72,7 +70,7 @@ public class ManageServiceImpl implements ManageService {
             }
         }
      }
-
+    //根据平台属性Id获取平台对象数据
     @Override
     public List<BaseAttrValue> getAttrValueList(Long attrId) {
         return baseAttrValueMapper.selectList(new QueryWrapper<BaseAttrValue>().eq("attr_id",attrId));
@@ -85,10 +83,10 @@ public class ManageServiceImpl implements ManageService {
         if (baseAttrInfo!=null){
             baseAttrInfo.setAttrValueList(this.getAttrValueList(attrId));
         }
-
         return baseAttrInfo;
     }
 
+    //分页查询商品表
     @Override
     public IPage<SpuInfo> getSpuInfoPage(Page<SpuInfo> pageParam, SpuInfo spuInfo) {
         QueryWrapper<SpuInfo> queryWrapper = new QueryWrapper<>();
@@ -96,7 +94,6 @@ public class ManageServiceImpl implements ManageService {
         queryWrapper.orderByDesc("id");
         return spuInfoMapper.selectPage(pageParam, queryWrapper);
     }
-
 }
 
 

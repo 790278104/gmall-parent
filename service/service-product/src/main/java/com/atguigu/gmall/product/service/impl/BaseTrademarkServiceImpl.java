@@ -15,6 +15,7 @@ public class BaseTrademarkServiceImpl extends ServiceImpl<BaseTrademarkMapper,Ba
     @Autowired
     private BaseTrademarkMapper baseTrademarkMapper;
 
+    //分页获取品牌表
     @Override
     public IPage<BaseTrademark> getPage(Page<BaseTrademark> page) {
         QueryWrapper<BaseTrademark> baseTrademarkQueryWrapper = new QueryWrapper<>();

@@ -6,19 +6,30 @@ autoMapping:自动映射数据库中的字段
 -->
 
 <mapper namespace="com.atguigu.gmall.product.mapper.BaseAttrInfoMapper">
+    <!--
+        resultMap：表示返回的映射结果集
+        id ： 表示唯一标识
+        type：表示返回结果集的数据类型
+        autoMapping : 自动映射的字段（数据库中有的）
+    -->
     <resultMap id="baseAttrInforMap" type="com.atguigu.gmall.model.product.BaseAttrInfo" autoMapping="true">
         <!--
-           property:实体类属性名
+           property:实体类字段名
            column:通过执行sql语句返回的字段名
         -->
         <id property="id" column="id"></id>
 
         <collection property="attrValueList" ofType="com.atguigu.gmall.model.product.BaseAttrValue" autoMapping="true">
+            <!--如果有字段重复则起别名-->
             <id property="id" column="attr_value_id"></id>
         </collection>
 
     </resultMap>
-    
+
+    <!--查询语句
+    -id：mapper中的方法名
+    -resultMap：返回值类型
+    -->
     <select id="selectBaseAttrInforList" resultMap="baseAttrInforMap">
         select
             bai.id,
@@ -32,6 +43,7 @@ autoMapping:自动映射数据库中的字段
         inner join base_attr_value bav
         on bai.id = bav.attr_id
         <where>
+            <!--各级id不为零，赋值分类id，分类等级 -->
             <if test="category1Id!=null and category1Id!=0">
                 or (bai.category_id=#{category1Id} and bai.category_level=1)
             </if>
