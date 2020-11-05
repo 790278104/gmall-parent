@@ -58,6 +58,7 @@ public class BaseManageController {
      * @param category3Id
      * @return
      */
+    //根据三个Id获取平台属性
     @GetMapping("attrInfoList/{category1Id}/{category2Id}/{category3Id}")
     public Result<List<BaseAttrInfo>> attrInfoList(@PathVariable("category1Id") Long category1Id,
                                                    @PathVariable("category2Id") Long category2Id,
