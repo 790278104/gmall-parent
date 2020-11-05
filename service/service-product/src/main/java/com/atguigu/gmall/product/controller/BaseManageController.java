@@ -78,7 +78,7 @@ public class BaseManageController {
     public Result getAttrValueList(@PathVariable Long attrId){
         BaseAttrInfo baseAttrInfo = manageService.getBaseAttrInfo(attrId);
         //List<BaseAttrValue> baseAttrValueList = manageService.getAttrValueList(attrId);
-        Page page = new Page();
+        //Page page = new Page();
         return Result.ok(baseAttrInfo.getAttrValueList());
     }
 

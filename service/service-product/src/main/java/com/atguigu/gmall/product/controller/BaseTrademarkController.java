@@ -23,6 +23,7 @@ public class BaseTrademarkController {
         return Result.ok(pageList);
     }
 
+
     @PostMapping("save")
     public Result saveBaseTrademark(@RequestBody BaseTrademark baseTrademark){
         baseTrademarkService.save(baseTrademark);

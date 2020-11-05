@@ -78,6 +78,7 @@ public class ManageServiceImpl implements ManageService {
         return baseAttrValueMapper.selectList(new QueryWrapper<BaseAttrValue>().eq("attr_id",attrId));
     }
 
+    //根据平台属性ID获取平台属性
     @Override
     public BaseAttrInfo getBaseAttrInfo(Long attrId) {
         BaseAttrInfo baseAttrInfo = baseAttrInfoMapper.selectById(attrId);
