@@ -81,6 +81,7 @@ public class BaseManageController {
         //Page page = new Page();
         return Result.ok(baseAttrInfo.getAttrValueList());
     }
-    
+
+
 
 }

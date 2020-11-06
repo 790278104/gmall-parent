@@ -33,4 +33,24 @@ public interface ManageService {
 
     //分页查询商品表
     IPage<SpuInfo> getSpuInfoPage(Page<SpuInfo> pageParam, SpuInfo spuInfo);
+
+    //查询所有的销售属性数据
+    List<BaseSaleAttr> getBaseSaleAttrList();
+    //保存商品数据
+    void saveSpuInfo(SpuInfo spuInfo);
+    //根据spuId 查询spuImageList
+    List<SpuImage> getSpuImageList(Long spuId);
+
+
+    List<SpuSaleAttr> getSpuSaleAttrList(Long spuId);
+    //保存skuInfo
+    void saveSkuInfo(SkuInfo skuInfo);
+
+    //分页查询skuInfo列表
+    IPage<SkuInfo> getPage(Page<SkuInfo> page);
+
+    //商品上架
+    void onSale(Long skuId);
+    //商品下架
+    void cancelSale(Long skuId);
 }

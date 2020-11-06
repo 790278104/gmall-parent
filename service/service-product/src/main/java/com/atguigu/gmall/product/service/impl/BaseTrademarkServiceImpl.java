@@ -22,7 +22,6 @@ public class BaseTrademarkServiceImpl extends ServiceImpl<BaseTrademarkMapper,Ba
         baseTrademarkQueryWrapper.orderByDesc("id");
         //查询所有数据
         return baseTrademarkMapper.selectPage(page,baseTrademarkQueryWrapper);
-
     }
 
 

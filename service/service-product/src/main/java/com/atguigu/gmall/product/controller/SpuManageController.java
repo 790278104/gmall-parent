@@ -1,13 +1,18 @@
 package com.atguigu.gmall.product.controller;
 
 import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.model.product.BaseSaleAttr;
+import com.atguigu.gmall.model.product.SpuImage;
 import com.atguigu.gmall.model.product.SpuInfo;
+import com.atguigu.gmall.model.product.SpuSaleAttr;
 import com.atguigu.gmall.product.service.ManageService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = "后台数据接口测试")
 @RestController
@@ -17,6 +22,7 @@ public class SpuManageController {
 
     @Autowired
     private ManageService manageService;
+
 
     // 根据查询条件封装控制器
     // springMVC 的时候，有个叫对象属性传值 如果页面提交过来的参数与实体类的参数一致，
@@ -35,4 +41,34 @@ public class SpuManageController {
         return Result.ok(spuInfoPageList);
     }
 
+
+    // 销售属性http://api.gmall.com/admin/product/baseSaleAttrList
+    @GetMapping("baseSaleAttrList")
+    public Result baseSaleAttrList(){
+        // 查询所有的销售属性集合
+        List<BaseSaleAttr> baseSaleAttrList = manageService.getBaseSaleAttrList();
+        return Result.ok(baseSaleAttrList);
+    }
+
+    //保存Spu
+    @PostMapping("saveSpuInfo")
+    public Result saveSpuInfo(@RequestBody SpuInfo spuInfo){
+        // 调用服务层的保存方法
+        manageService.saveSpuInfo(spuInfo);
+        return Result.ok();
+    }
+
+    //根据spuId获取商品图片
+    @GetMapping("spuImageList/{spuId}")
+    public Result<List<SpuImage>> getSpuImageList(@PathVariable("spuId") Long spuId) {
+        List<SpuImage> spuImageList = manageService.getSpuImageList(spuId);
+        return Result.ok(spuImageList);
+    }
+
+    //根据spuId查询销售属性以及属性值
+    @GetMapping("spuSaleAttrList/{spuId}")
+    public Result getspuSaleAttrList(@PathVariable Long spuId){
+        List<SpuSaleAttr> saleAttrsList = manageService.getSpuSaleAttrList(spuId);
+        return Result.ok(saleAttrsList);
+    }
 }
