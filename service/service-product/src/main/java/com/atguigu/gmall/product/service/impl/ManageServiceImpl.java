@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ManageServiceImpl implements ManageService {
@@ -44,6 +47,9 @@ public class ManageServiceImpl implements ManageService {
     private SkuSaleAttrValueMapper skuSaleAttrValueMapper;
     @Autowired
     private SkuAttrValueMapper skuAttrValueMapper;
+    @Autowired
+    private BaseCategoryViewMapper baseCategoryViewMapper;
+
     //查询所有一级分类数据
     @Override
     public List<BaseCategory1> getCategory1() {
@@ -165,6 +171,8 @@ public class ManageServiceImpl implements ManageService {
 
     }
 
+    //保存skuInfo详情信息
+    //三个隐藏属性
     @Override
     public void saveSkuInfo(SkuInfo skuInfo) {
         //skuInfo
@@ -196,7 +204,7 @@ public class ManageServiceImpl implements ManageService {
             }
         }
     }
-    //分页查询库存
+    //分页查询skuInfo列表
     @Override
     public IPage<SkuInfo> getPage(Page<SkuInfo> page) {
         QueryWrapper<SkuInfo> skuInfoQueryWrapper = new QueryWrapper<>();
@@ -204,6 +212,7 @@ public class ManageServiceImpl implements ManageService {
         return skuInfoMapper.selectPage(page,skuInfoQueryWrapper);
     }
 
+    //上架
     @Override
     public void onSale(Long skuId) {
         SkuInfo skuInfo = new SkuInfo();
@@ -211,13 +220,60 @@ public class ManageServiceImpl implements ManageService {
         skuInfo.setIsSale(1);
         skuInfoMapper.updateById(skuInfo);
     }
-
+    //下架
     @Override
     public void cancelSale(Long skuId) {
         SkuInfo skuInfo = new SkuInfo();
         skuInfo.setId(skuId);
         skuInfo.setIsSale(1);
         skuInfoMapper.updateById(skuInfo);
+    }
+    //根据skuId获取数据
+    @Override
+    public SkuInfo getSkuInfo(Long skuId) {
+        SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
+
+        if (skuInfo!=null){
+            //获取skuImage数据
+            List<SkuImage> skuImageList = skuImageMapper.selectList(new QueryWrapper<SkuImage>().eq("sku_id",skuId));
+            skuInfo.setSkuImageList(skuImageList);
+        }
+        return skuInfo;
+    }
+    //通过三级分类id查询分类信息
+    @Override
+    public BaseCategoryView getCategoryViewByCategory3Id(Long category3Id) {
+        return baseCategoryViewMapper.selectById(category3Id);
+    }
+
+    //获取sku价格
+    @Override
+    public BigDecimal getSkuPrice(Long skuId) {
+        SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
+        if(null != skuInfo) {
+            return skuInfo.getPrice();
+        }
+        return new BigDecimal("0");
+    }
+
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(Long skuId, Long spuId) {
+        return spuSaleAttrMapper.selectSpuSaleAttrListCheckBySku(skuId, spuId);
+    }
+
+    @Override
+    public Map getSkuValueIdsMap(Long spuId) {
+        Map<Object, Object> map = new HashMap<>();
+        // key = 125|123 ,value = 37
+        List<Map> mapList = skuSaleAttrValueMapper.selectSaleAttrValuesBySpu(spuId);
+        if (!CollectionUtils.isEmpty(mapList)) {
+            // 循环遍历
+            for (Map skuMap : mapList) {
+                // key = 125|123 ,value = 37
+                map.put(skuMap.get("value_ids"), skuMap.get("sku_id"));
+            }
+        }
+        return map;
     }
 
 

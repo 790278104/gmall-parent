@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface ManageService {
@@ -43,7 +45,7 @@ public interface ManageService {
 
 
     List<SpuSaleAttr> getSpuSaleAttrList(Long spuId);
-    //保存skuInfo
+    //保存skuInfo详细信息
     void saveSkuInfo(SkuInfo skuInfo);
 
     //分页查询skuInfo列表
@@ -53,4 +55,14 @@ public interface ManageService {
     void onSale(Long skuId);
     //商品下架
     void cancelSale(Long skuId);
+    //根据skuId获取数据
+    SkuInfo getSkuInfo(Long skuId);
+    //通过三级分类id查询分类信息
+    BaseCategoryView getCategoryViewByCategory3Id(Long category3Id);
+    //获取sku价格
+    BigDecimal getSkuPrice(Long skuId);
+    //根据spuId，skuId 查询销售属性集合
+    List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(Long skuId, Long spuId);
+    //根据spuId 查询map 集合属性
+    Map getSkuValueIdsMap(Long spuId);
 }
